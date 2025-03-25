@@ -168,6 +168,3 @@ def render_ai_page(page):
 
     result = process_inventory_data(inventory_id)
     return render_template(f"{page}.html", result=result, inventory_id=inventory_id)
-
-if __name__ == '__main__':
-    app.run(debug=True)
