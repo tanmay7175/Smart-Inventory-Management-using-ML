@@ -1,0 +1,26 @@
+<!-- templates/predict_demand.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Demand</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Demand Forecasting</h1>
+        <p>Inventory ID: {{ inventory_id }}</p>
+
+        <div class="prediction-card">
+            {% if result['Predicted Demand'] %}
+                <p><strong>Predicted Demand:</strong> {{ result['Predicted Demand'] }}</p>
+            {% else %}
+                <p style="color: red;">No prediction available for this inventory.</p>
+            {% endif %}
+        </div>
+
+        <a href="{{ url_for('home') }}" class="back-btn">Back to Home</a>
+    </div>
+</body>
+</html>

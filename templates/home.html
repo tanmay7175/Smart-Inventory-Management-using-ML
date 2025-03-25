@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #555;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            text-decoration: none;
+            font-size: 16px;
+            padding: 12px;
+            color: white;
+            background: linear-gradient(90deg, #007BFF, #00C6FF);
+            border-radius: 5px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            background: linear-gradient(90deg, #00C6FF, #007BFF);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inventory Data Analysis</h1>
+        
+        <!-- AI-Based Features -->
+        <h2>AI-Based Features</h2>
+        <p>Enter Inventory ID for AI-based features:</p>
+        <input type="text" id="inventory_id_ai" name="inventory_id_ai" placeholder="Enter Inventory ID" required>
+        
+        <div class="button-container">
+            <a href="#" class="btn" onclick="navigateAI('ai/predict_demand')">🔍 Predict Demand</a>
+            <a href="#" class="btn" onclick="navigateAI('ai/optimize_inventory')">📊 Optimize Inventory</a>
+        </div>
+    </div>
+
+    <script>
+        function navigateAI(page) {
+            const inventoryId = document.getElementById('inventory_id_ai').value;
+            if (!inventoryId) {
+                alert("⚠️ Please enter an Inventory ID for AI features!");
+                return;
+            }
+            window.location.href = `/${page}?inventory_id=${inventoryId}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!-- templates/optimize_inventory.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Optimization Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .section {
+            border-bottom: 2px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .alert {
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .alert.low-stock { background-color: red; color: white; }
+        .alert.sufficient-stock { background-color: green; color: white; }
+        .alert.reorder-needed { background-color: blue; color: white; }
+        .alert.no-reorder { background-color: orange; color: white; }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #fff;
+            background: #007BFF;
+            border-radius: 5px;
+        }
+        .back-btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inventory Optimization Dashboard</h1>
+        <p><strong>Inventory ID:</strong> {{ inventory_id }}</p>
+
+        <!-- ✅ Demand Prediction -->
+        <div class="section">
+            <h2>📊 Demand Prediction</h2>
+            <p><strong>Predicted Demand:</strong> {{ result['Predicted Demand'] }}</p>
+            <p><strong>Economic Order Quantity (EOQ):</strong> {{ result['EOQ'] }}</p>
+        </div>
+
+        <!-- ✅ Inventory Status -->
+        <div class="section">
+            <h2>📦 Inventory Status</h2>
+            <p><strong>Stock Available:</strong> {{ result['Stock Available'] }}</p>
+
+            {% if result['Restocking Alert'] == "Restocking Required" %}
+                <p class="alert low-stock">⚠️ Restocking Required!</p>
+            {% else %}
+                <p class="alert sufficient-stock">✅ Sufficient Stock Available</p>
+            {% endif %}
+        </div>
+
+        <!-- ✅ AI-Based Inventory Optimization -->
+        <div class="section">
+            <h2>🤖 AI-Based Inventory Optimization</h2>
+            <p><strong>Optimized Restocking Quantity:</strong> {{ result['Optimized Restocking Quantity'] }}</p>
+
+            {% if result['Optimized Restocking Quantity'] is not none and result['Optimized Restocking Quantity'] > 0 %}
+                <p class="alert reorder-needed">🔄 AI Suggests Reordering!</p>
+            {% else %}
+                <p class="alert no-reorder">✅ No Immediate Restocking Needed</p>
+            {% endif %}
+        </div>
+
+        <!-- ✅ Supplier Insights -->
+        <div class="section">
+            <h2>🏭 Supplier Insights</h2>
+            <p><strong>Major Suppliers:</strong> 
+                {% if result['Major Suppliers'] != "No Supplier Data" %}
+                    {{ result['Major Suppliers'] | join(', ') }}
+                {% else %}
+                    No Supplier Data Available
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- ✅ Financial Insights -->
+        <div class="section">
+            <h2>💰 Financial Insights</h2>
+            <p><strong>Total Sales Revenue:</strong> {{ result['Total Revenue'] }}</p>
+        </div>
+
+        <!-- ✅ Top 5 Selling Items -->
+        <div class="section">
+            <h2>🔥 Top Selling Items</h2>
+            <ul>
+                {% if result['Top 5 Selling Items'] != "No Data" %}
+                    {% for item, sales in result['Top 5 Selling Items'].items() %}
+                        <li>Inventory ID: {{ item }} - Sales: {{ sales }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li>No Sales Data Available</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <a href="{{ url_for('home') }}" class="back-btn">Back to Home</a>
+    </div>
+</body>
+</html>
